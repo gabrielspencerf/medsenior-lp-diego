@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased text-[#10251C] bg-[#F7F8F4] font-sans;
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply bg-white border border-[#063D24]/[0.05] shadow-[0_4px_20px_rgba(6,61,36,0.03)] rounded-2xl transition-all duration-300;
+  }
+}
