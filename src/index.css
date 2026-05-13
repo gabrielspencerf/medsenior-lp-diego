@@ -4,6 +4,10 @@
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Montserrat", sans-serif;
+  --color-brand-deep: #063d24;
+  --color-brand-mid: #0d6b3c;
+  --color-brand-lime: #b8dc6f;
+  --color-text-muted: #5f6f67;
 }
 
 @layer base {
@@ -12,12 +16,51 @@
   }
   
   body {
-    @apply antialiased text-[#10251C] bg-[#F7F8F4] font-sans;
+    @apply antialiased text-brand-deep bg-[#F7F8F4] font-sans;
+  }
+
+  /** Evita arrastar imagem para o ambiente de trabalho / barra (WebKit). */
+  img {
+    -webkit-user-drag: none;
   }
 }
 
 @layer components {
   .premium-card {
     @apply bg-white border border-[#063D24]/[0.05] shadow-[0_4px_20px_rgba(6,61,36,0.03)] rounded-2xl transition-all duration-300;
+  }
+
+  /** Parágrafo corpo em secções (cor + ritmo). */
+  .lp-prose {
+    @apply text-base text-text-muted leading-relaxed font-medium opacity-70;
+  }
+
+  /** Secções H2 em páginas legais. */
+  .legal-doc h2 {
+    @apply font-display text-lg font-bold tracking-tight text-[#063D24];
+  }
+
+  /** Logo BrasCare no header (larguras fixas; ver também `SiteHeader`). */
+  .brascare-header-logo {
+    display: block;
+    width: 64px;
+    height: auto;
+    max-width: min(64px, 46vw);
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  @media (min-width: 640px) {
+    .brascare-header-logo {
+      width: 72px;
+      max-width: 72px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .brascare-header-logo {
+      width: 80px;
+      max-width: 80px;
+    }
   }
 }

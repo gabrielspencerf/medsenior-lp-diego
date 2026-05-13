@@ -1,26 +1,41 @@
-# Regras de Manutenção e Documentação
+# Regras de manutenção e documentação
 
-Para garantir a evolução sustentável deste projeto, as seguintes regras devem ser seguidas rigorosamente em cada ciclo de alteração:
+Para evolução sustentável da landing, siga estas regras em cada ciclo de alteração.
 
-## 1. Revisão Obrigatória de Docs
-Antes de iniciar qualquer alteração estrutural ou visual, o desenvolvedor (ou IA) deve revisar os arquivos:
-- `docs/structure.md`: Para entender a arquitetura atual.
-- `docs/design/design-system.md`: Para garantir consistência com a identidade visual.
-- `docs/copy.md`: Para manter o tom de voz e a estratégia de conversão.
+## 1. Revisão obrigatória de docs
 
-## 2. Atualização em Tempo Real
-Toda mudança significativa deve ser refletida na documentação imediatamente:
-- Se uma nova seção for criada -> `docs/structure.md` e `docs/design/design-system.md` devem ser atualizados.
-- Se o tom de voz mudar -> `docs/copy.md` deve ser revisado.
-- Problemas resolvidos -> Adicionar entrada em `docs/logs/fixes.md`.
+Antes de alterações estruturais, visuais ou de copy, revisar:
 
-## 3. Hierarquia Contida (Regra do "Big vs Refined")
-- Evitar espaçamentos excessivos que quebrem a unidade visual. O padrão sugerido é `py-24` (96px) para seções e gaps de `mb-10` a `mb-12` para títulos grandes.
-- Títulos muito grandes (`text-7xl+`) devem ser usados com parcimônia (apenas no Hero ou seções de impacto extremo). O padrão de navegação deve ser focado em `text-4xl` a `text-5xl` para seções secundárias.
+- [docs/README.md](./README.md) — mapa atualizado da pasta `docs`.
+- [docs/structure.md](./structure.md) — stack e seções reais.
+- [docs/design/design-system.md](./design/design-system.md) — identidade e padrões por seção.
+- [docs/copy.md](./copy.md) — tom e mensagens por seção.
 
-## 4. Log de Erros
-O arquivo `docs/logs/fixes.md` deve conter obrigatoriamente:
-- **Problema**: Descrição clara do que estava errado.
-- **Causa**: Diagnóstico técnico do porquê o erro ocorreu.
-- **Solução**: Passo a passo da correção.
-- **Prevenção**: O que fazer para não ocorrer novamente.
+Se a mudança impactar **tempo de carregamento**, **imagens** ou **bundle**: [docs/performance.md](./performance.md).
+
+Se o trabalho for feito por **IA**: [docs/ai/README.md](./ai/README.md) e o arquivo da ferramenta correspondente (`cursor`, `claude`, `gpt`).
+
+## 2. Atualização em tempo real
+
+- Nova seção ou mudança de arquitetura de pastas → `docs/structure.md` + `docs/design/design-system.md` (+ `docs/copy.md` se houver texto novo). Incluir `src/components/` e `public/brand/` quando afetados.
+- Mudança de tom, claims ou hierarquia de mensagens → `docs/copy.md`.
+- Novo padrão visual global (cor, tipo, espaçamento) → `docs/design/design-system.md`.
+- Problema corrigido (bug, regressão, decisão técnica relevante) → entrada em [docs/logs/fixes.md](./logs/fixes.md) com **Problema**, **Causa**, **Solução**, **Prevenção**.
+- Novo documento em `docs/` → adicionar linha na tabela de [docs/README.md](./README.md).
+
+## 3. Hierarquia contida (regra “Big vs Refined”)
+
+- Evitar espaçamentos que quebrem a unidade visual: padrão de seção `py-16`–`py-24` conforme breakpoint; hero pode usar `py-12` no mobile.
+- Títulos muito grandes (`text-7xl+`) só com justificativa (ex.: hero); seções internas preferir `text-3xl`–`text-5xl` / `text-6xl` em destaque único.
+- Corpo de texto com opacidade controlada (`opacity-70`–`90`) para hierarquia clara frente ao título.
+
+## 4. Log de erros e melhorias
+
+O arquivo `docs/logs/fixes.md` deve registrar, para cada entrada relevante:
+
+1. **Problema** — o que o usuário ou o build percebiam de errado.  
+2. **Causa** — diagnóstico técnico.  
+3. **Solução** — o que foi feito (pode referenciar commit ou arquivo).  
+4. **Prevenção** — como evitar recidiva.
+
+Não usar o log para ideias futuras não implementadas; isso vai para issues ou notas de produto.

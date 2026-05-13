@@ -1,24 +1,49 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const siteUrl = (env.VITE_SITE_URL ?? '').replace(/\/$/, '');
+  const ogImage = siteUrl ? `${siteUrl}/brand/brascare-logotipo-horizontal.webp` : '';
+
   return {
-    plugins: [react(), tailwindcss()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
+    build: {
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/motion')) return 'motion';
+          },
+        },
       },
     },
-    server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
-      hmr: process.env.DISABLE_HMR !== 'true',
-    },
+    plugins: [
+      react(),
+      tailwindcss(),
+      {
+        name: 'html-absolute-seo',
+        transformIndexHtml(html) {
+          if (!siteUrl || !ogImage) return html;
+          return {
+            html,
+            tags: [
+              { tag: 'link', attrs: { rel: 'canonical', href: `${siteUrl}/` }, injectTo: 'head' },
+              { tag: 'meta', attrs: { property: 'og:url', content: `${siteUrl}/` }, injectTo: 'head' },
+              { tag: 'meta', attrs: { property: 'og:image', content: ogImage }, injectTo: 'head' },
+              {
+                tag: 'meta',
+                attrs: {
+                  property: 'og:image:alt',
+                  content: 'BrasCare — MedSênior Curitiba, planos de saúde',
+                },
+                injectTo: 'head',
+              },
+              { tag: 'meta', attrs: { name: 'twitter:image', content: ogImage }, injectTo: 'head' },
+            ],
+          };
+        },
+      },
+    ],
   };
 });
