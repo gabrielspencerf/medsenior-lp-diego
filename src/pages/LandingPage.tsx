@@ -140,10 +140,16 @@ export function LandingPage() {
     },
   ];
 
-  const planCardWidthPx = windowWidth < 768 ? Math.min(windowWidth * 0.85, 300) : 320;
+  const isMdUp = windowWidth >= 768;
+  /** Mobile: largura = contentor do carrossel (já desconta o padding da secção) — usa a faixa horizontal toda. */
+  const planCardWidthPx = isMdUp
+    ? 320
+    : planOuterW > 0
+      ? Math.floor(planOuterW)
+      : Math.max(260, Math.floor(windowWidth - 32));
   const planCardStride = planCardWidthPx + PLAN_GAP_PX;
   /** Quantos cartões mostramos “cheios” na janela: 3 em md+, 1 em mobile. */
-  const planVisibleSlots = windowWidth < 768 ? 1 : 3;
+  const planVisibleSlots = isMdUp ? 3 : 1;
   const planClipWidthPx =
     planVisibleSlots * planCardWidthPx + (planVisibleSlots - 1) * PLAN_GAP_PX;
   const planTrackWidthPx = plans.length * planCardWidthPx + (plans.length - 1) * PLAN_GAP_PX;
@@ -305,10 +311,10 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div ref={planCarouselOuterRef} className="w-full min-w-0">
+            <div ref={planCarouselOuterRef} className="w-full min-w-0 px-0">
               <div
                 className="mx-auto max-w-full min-w-0 overflow-x-hidden"
-                style={{ width: planOuterW > 0 ? `${planViewportW}px` : '100%' }}
+                style={{ width: planOuterW > 0 ? `${Math.round(planViewportW)}px` : '100%' }}
               >
                 <motion.div
                   drag={planMaxScrollPx > 0 ? 'x' : false}
@@ -316,18 +322,19 @@ export function LandingPage() {
                     left: -planMaxScrollPx,
                     right: 0,
                   }}
-                  dragElastic={0.06}
+                  dragElastic={0.02}
+                  dragMomentum={false}
                   onDragEnd={(_, info) => {
-                    const threshold = 40;
+                    const threshold = 56;
                     if (info.offset.x < -threshold) {
                       setFocusedIndex((prev) => (prev >= planMaxSlide ? 0 : prev + 1));
                     } else if (info.offset.x > threshold) {
                       setFocusedIndex((prev) => (prev <= 0 ? planMaxSlide : prev - 1));
                     }
                   }}
-                  className={`flex gap-4 px-0.5 pb-8 md:gap-4 md:px-0 ${planMaxScrollPx > 0 ? 'cursor-grab active:cursor-grabbing' : ''}`}
-                  animate={{ x: -planTranslateX }}
-                  transition={{ type: 'spring', stiffness: 380, damping: 34 }}
+                  className={`flex gap-4 pb-8 md:gap-4 ${planMaxScrollPx > 0 ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                  animate={{ x: -Math.round(planTranslateX) }}
+                  transition={{ type: 'tween', duration: 0.42, ease: [0.22, 0.94, 0.38, 1] }}
                   style={{ width: 'fit-content' }}
                 >
                   {plans.map((plan, i) => (
@@ -350,7 +357,8 @@ export function LandingPage() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.06 }}
-                      className="relative flex min-h-[380px] w-[min(85vw,300px)] shrink-0 cursor-pointer select-none flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow duration-300 hover:shadow-md sm:min-h-[420px] sm:p-6 md:min-h-[440px] md:w-80 md:p-7"
+                      style={{ width: planCardWidthPx, flex: '0 0 auto' }}
+                      className="relative flex min-h-[380px] shrink-0 cursor-pointer select-none flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow duration-300 hover:shadow-md sm:min-h-[420px] sm:p-6 md:min-h-[440px] md:p-7"
                     >
                     <div className="mb-6">
                       <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">{plan.badge}</p>
