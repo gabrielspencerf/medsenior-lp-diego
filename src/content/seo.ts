@@ -1,9 +1,12 @@
-/** URL pública (https://…, sem barra final). Defina `VITE_SITE_URL` no build para OG/canonical absolutos. */
+import { SITE_URL } from './legal';
+
+/** URL pública (https://…, sem barra final). */
 export function getSiteOrigin(): string {
-  const fromEnv = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '').trim();
-  if (fromEnv) return fromEnv;
-  if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin;
-  return '';
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    const runtime = window.location.origin.replace(/\/$/, '');
+    if (runtime.startsWith('http')) return runtime;
+  }
+  return SITE_URL;
 }
 
 export const SEO_SITE_NAME = 'BrasCare';
@@ -31,12 +34,12 @@ export const SEO_BY_PATH: Record<string, SeoPage> = {
   '/termos': {
     title: 'Termos de uso',
     description:
-      'Termos de uso do site BrasCare. Conteúdo informativo — substitua pela versão aprovada pelo jurídico antes de publicar.',
+      'Termos de uso do site BrasCare MedSênior Curitiba: condições de acesso, natureza informativa do conteúdo e uso do site.',
   },
   '/privacidade': {
-    title: 'Privacidade',
+    title: 'Política de privacidade',
     description:
-      'Como tratamos dados pessoais neste site BrasCare. Texto modelo — alinhe com o DPO ou jurídico antes de publicar a política definitiva.',
+      'Política de privacidade e LGPD do site BrasCare: dados coletados, finalidades, cookies, direitos do titular e contato.',
   },
 };
 

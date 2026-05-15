@@ -1,4 +1,11 @@
 import { Link } from 'react-router-dom';
+import {
+  LEGAL_CNPJ,
+  LEGAL_COMPANY_NAME,
+  LEGAL_LAST_UPDATED,
+  LEGAL_SITE_HOST,
+  SITE_URL,
+} from '../content/legal';
 import { LegalLayout } from './LegalLayout';
 
 export function TermosPage() {
@@ -6,31 +13,95 @@ export function TermosPage() {
     <LegalLayout
       eyebrow="BrasCare Saúde"
       title="Termos de uso"
-      updatedLabel="Texto modelo provisório — substitua pelo documento aprovado pelo jurídico antes de publicar em definitivo."
+      updatedLabel={`Última atualização: ${LEGAL_LAST_UPDATED}. Site: ${LEGAL_SITE_HOST}`}
     >
       <section>
-        <h2>1. Finalidade</h2>
+        <h2>1. Aceitação</h2>
         <p className="lp-prose !opacity-90">
-          Este site apresenta informações sobre produtos e serviços de saúde. O conteúdo é meramente informativo e pode ser alterado sem aviso prévio. A
-          contratação, quando existir, seguirá documentação formal própria da operadora e da corretora.
-        </p>
-      </section>
-
-      <section>
-        <h2>2. Uso do site</h2>
-        <p className="lp-prose !opacity-90">
-          Ao utilizar este site, compromete-se a não empregar meios que prejudiquem o funcionamento do serviço, a não reproduzir conteúdo de forma abusiva e a
-          respeitar a legislação aplicável. O acesso pode ser limitado ou encerrado em caso de uso indevido, conforme permitido em lei.
-        </p>
-      </section>
-
-      <section>
-        <h2>3. Limitação e alterações</h2>
-        <p className="lp-prose !opacity-90">
-          Não nos responsabilizamos por danos indiretos decorrentes do uso ou da impossibilidade de uso do site, na medida permitida pela lei. Estes termos
-          podem ser atualizados; recomenda-se consultar esta página periodicamente. Para tratamento de dados pessoais, veja a{' '}
+          Ao acessar e utilizar o site{' '}
+          <a
+            href={SITE_URL}
+            className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]"
+          >
+            {LEGAL_SITE_HOST}
+          </a>
+          , você declara ter lido e concordado com estes Termos de Uso e com a nossa{' '}
           <Link to="/privacidade" className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]">
-            página de privacidade
+            Política de Privacidade
+          </Link>
+          . Se não concordar, não utilize o site.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. Quem somos</h2>
+        <p className="lp-prose !opacity-90">
+          Este site é operado por <strong className="font-semibold text-[#063D24]">{LEGAL_COMPANY_NAME}</strong>, inscrita no
+          CNPJ sob o nº <strong className="font-semibold text-[#063D24]">{LEGAL_CNPJ}</strong>, na qualidade de corretora de
+          seguros, com foco em orientação comercial sobre planos de saúde MedSênior na região de Curitiba e entorno.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. Finalidade e natureza do conteúdo</h2>
+        <p className="lp-prose !opacity-90">
+          As informações publicadas têm caráter <strong className="font-semibold text-[#063D24]">meramente informativo e comercial</strong>
+          . Indicações de cobertura, rede, valores ou condições dependem de confirmação na proposta e no contrato formal. Nada neste site
+          substitui o contrato, as condições gerais ou os avisos da operadora de saúde. Reservamo-nos o direito de alterar textos, imagens e
+          disponibilidade de produtos sem aviso prévio.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Uso permitido</h2>
+        <p className="lp-prose !opacity-90">
+          Você compromete-se a utilizar o site de forma lícita, fornecendo informações verdadeiras quando solicitadas, e a não empregar
+          meios automatizados ou abusivos que prejudiquem a infraestrutura, a segurança ou a experiência de outros usuários. É vedada a
+          reprodução não autorizada de conteúdos, marcas ou materiais exibidos, salvo consentimento prévio ou hipótese legal.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Atendimento e ferramentas de terceiros</h2>
+        <p className="lp-prose !opacity-90">
+          O site pode disponibilizar canais de conversa (incluindo assistente virtual integrado) para esclarecimentos e cotações. O
+          tratamento de dados nesses canais rege-se pela Política de Privacidade. Serviços de terceiros (por exemplo, hospedagem,
+          analytics ou operadora de saúde) possuem termos próprios, pelos quais não nos responsabilizamos além do permitido em lei.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Propriedade intelectual</h2>
+        <p className="lp-prose !opacity-90">
+          O layout, textos, identidade visual e demais elementos do site, bem como marcas de terceiros exibidas com autorização, estão
+          protegidos por direitos de propriedade intelectual. O uso não autorizado pode configurar violação legal.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Limitação de responsabilidade</h2>
+        <p className="lp-prose !opacity-90">
+          Empregamos esforços razoáveis para manter o site disponível e seguro, mas não garantimos funcionamento ininterrupto ou livre de
+          erros. Na extensão máxima permitida pela legislação brasileira, não respondemos por danos indiretos, lucros cessantes ou
+          decisões tomadas com base exclusiva em informações deste site, sem validação contratual.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Alterações destes termos</h2>
+        <p className="lp-prose !opacity-90">
+          Podemos atualizar estes Termos de Uso periodicamente. A data no topo desta página indica a versão vigente. O uso continuado após
+          alterações constitui ciência das novas condições, salvo disposição legal em contrário.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Lei aplicável e contato</h2>
+        <p className="lp-prose !opacity-90">
+          Estes termos são regidos pelas leis da República Federativa do Brasil. Dúvidas podem ser encaminhadas pelos canais de
+          atendimento disponíveis no site (incluindo o assistente de conversa). Para questões sobre dados pessoais, consulte a{' '}
+          <Link to="/privacidade" className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]">
+            Política de Privacidade
           </Link>
           .
         </p>

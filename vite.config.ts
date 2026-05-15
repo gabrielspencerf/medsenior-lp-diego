@@ -4,7 +4,7 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const siteUrl = (env.VITE_SITE_URL ?? '').replace(/\/$/, '');
+  const siteUrl = (env.VITE_SITE_URL || 'https://curitiba.vidaesaudeseniors.com.br').replace(/\/$/, '');
   const ogImage = siteUrl ? `${siteUrl}/brand/brascare-logotipo-horizontal.webp` : '';
 
   return {

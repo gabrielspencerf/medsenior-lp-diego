@@ -1,3 +1,7 @@
+/** Google Tag Manager — ID do contentor (também em `index.html`). */
+export const GTM_CONTAINER_ID =
+  (import.meta.env.VITE_GTM_CONTAINER_ID as string | undefined)?.trim() || 'GTM-55NRX6NH';
+
 /** Link direto WhatsApp (reserva se o Typebot não estiver configurado). */
 export const WHATSAPP_URL = (import.meta.env.VITE_WHATSAPP_URL as string | undefined)?.trim() ?? '';
 

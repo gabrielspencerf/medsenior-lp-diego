@@ -28,7 +28,7 @@ Artefatos em `dist/`.
 
 Copie [`.env.example`](.env.example) para `.env` ou `.env.local` e preencha o que for usar:
 
-- **`VITE_SITE_URL`** — URL pública do site (`https://…`, sem barra final). Usada em SEO (`SeoHead`), canonical/Open Graph no runtime e, **no build**, injeção de `og:image` / `twitter:image` / `canonical` no `index.html` (ver `vite.config.ts`).
+- **`VITE_SITE_URL`** — URL pública do site (`https://curitiba.vidaesaudeseniors.com.br`, sem barra final). Usada em SEO, canonical/Open Graph e páginas legais. Padrão de produção já definido no projeto e em `vite.config.ts`.
 - **Typebot** — `VITE_TYPEBOT_API_HOST` + `VITE_TYPEBOT_PUBLIC_ID` (ex.: `https://flow.creativelane.com.br` + `enanda-cwb`). Valores por defeito existem em `src/content/constants.ts` para desenvolvimento sem `.env`.
 - **`VITE_TYPEBOT_JS_URL`** — opcional; sobrescreve o URL do script `web.js` no CDN.
 - **WhatsApp** — `VITE_WHATSAPP_URL` como reserva se o Typebot não estiver configurado.
