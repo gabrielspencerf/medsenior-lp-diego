@@ -83,7 +83,13 @@ export function CtaButton(props: CtaButtonProps) {
     <a
       className={`${base} ${variantStyles} ${ctaButtonSizeClass} ${width} ${className}`.trim()}
       {...rest}
-      {...(typebot ? { role: 'button' as const, 'aria-haspopup': 'dialog' as const } : {})}
+      {...(typebot
+        ? {
+            role: 'button' as const,
+            'aria-haspopup': 'dialog' as const,
+            'data-typebot-cta': 'true',
+          }
+        : {})}
       href={href}
       onClick={handleClick}
     >

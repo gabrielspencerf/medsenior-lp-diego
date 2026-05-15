@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { GTM_CONTAINER_ID, TYPEBOT_CONFIGURED } from '../content/constants';
-import { preloadTypebotBubble } from '../lib/typebot';
+import { injectTypebotEmbed } from '../lib/typebot';
 
 declare global {
   interface Window {
@@ -28,7 +28,7 @@ export function ClientBootstrap() {
     }
 
     if (TYPEBOT_CONFIGURED) {
-      preloadTypebotBubble();
+      injectTypebotEmbed();
     }
   }, []);
 
