@@ -50,7 +50,9 @@ export function CtaButton(props: CtaButtonProps) {
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (typebot) {
       e.preventDefault();
+      e.stopPropagation();
       void openTypebot();
+      return;
     }
     onClick?.(e);
   };

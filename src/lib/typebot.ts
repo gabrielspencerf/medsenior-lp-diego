@@ -1,10 +1,12 @@
 import { TYPEBOT_API_HOST, TYPEBOT_CONFIGURED, TYPEBOT_PUBLIC_ID, WHATSAPP_URL } from '../content/constants';
 
-/** Igual ao embed “Share → HTML” (jsDelivr `@0` = última 0.x). */
-const TYPEBOT_JS_DEFAULT = 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js';
+/** Versão fixa estável (evita que `@0` no jsDelivr mude a API sem aviso). */
+export const TYPEBOT_JS_URL =
+  (import.meta.env.VITE_TYPEBOT_JS_URL as string | undefined)?.trim() ||
+  'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.10.2/dist/web.js';
 
-const typebotModuleUrl = () =>
-  (import.meta.env.VITE_TYPEBOT_JS_URL as string | undefined)?.trim() || TYPEBOT_JS_DEFAULT;
+const TYPEBOT_READY_EVENT = 'typebot-sdk-ready';
+const TYPEBOT_LOADER_SRC = '/typebot-loader.js';
 
 type TypebotSdk = {
   initBubble: (opts: {
@@ -25,7 +27,12 @@ type TypebotSdk = {
   open: (opts?: { id?: string }) => void;
 };
 
-/** Verde marca WhatsApp + ícone branco (SVG em `public/brand/`). */
+declare global {
+  interface Window {
+    Typebot?: TypebotSdk;
+  }
+}
+
 const WHATSAPP_LAUNCHER_BG = '#25D366';
 
 function whatsappBubbleIconUrl(): string {
@@ -35,21 +42,97 @@ function whatsappBubbleIconUrl(): string {
 }
 
 let initPromise: Promise<void> | null = null;
-let TypebotRef: TypebotSdk | undefined;
+let sdkPromise: Promise<TypebotSdk> | null = null;
 
-async function loadTypebotFromCdn(): Promise<TypebotSdk> {
-  const url = typebotModuleUrl();
-  const mod = (await import(/* @vite-ignore */ url)) as { default: TypebotSdk };
-  return mod.default;
+function waitForSdk(timeoutMs = 20_000): Promise<TypebotSdk> {
+  return new Promise((resolve, reject) => {
+    if (window.Typebot?.initBubble) {
+      resolve(window.Typebot);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      window.removeEventListener(TYPEBOT_READY_EVENT, onReady);
+      reject(new Error('Timeout ao carregar o SDK Typebot'));
+    }, timeoutMs);
+
+    const onReady = () => {
+      window.removeEventListener(TYPEBOT_READY_EVENT, onReady);
+      clearTimeout(timer);
+      if (window.Typebot?.initBubble) {
+        resolve(window.Typebot);
+      } else {
+        reject(new Error('SDK Typebot inválido após carregamento'));
+      }
+    };
+
+    window.addEventListener(TYPEBOT_READY_EVENT, onReady);
+  });
+}
+
+function injectLoaderScript(): void {
+  const loaderId = 'typebot-sdk-loader';
+  if (document.getElementById(loaderId)) return;
+
+  const script = document.createElement('script');
+  script.id = loaderId;
+  script.type = 'module';
+  script.src = TYPEBOT_LOADER_SRC;
+  script.onerror = () => {
+    sdkPromise = null;
+    console.error('[Typebot] falha ao carregar', TYPEBOT_LOADER_SRC);
+  };
+  document.head.appendChild(script);
+}
+
+/** Carrega o SDK (`public/typebot-loader.js` ou import dinâmico de fallback). */
+function loadTypebotSdk(): Promise<TypebotSdk> {
+  if (typeof window === 'undefined') {
+    return Promise.reject(new Error('Typebot só pode ser carregado no browser'));
+  }
+
+  if (window.Typebot?.initBubble) {
+    return Promise.resolve(window.Typebot);
+  }
+
+  if (!sdkPromise) {
+    sdkPromise = (async () => {
+      injectLoaderScript();
+      try {
+        return await waitForSdk();
+      } catch {
+        const mod = (await import(/* @vite-ignore */ TYPEBOT_JS_URL)) as {
+          default?: TypebotSdk;
+        } & TypebotSdk;
+        const sdk = mod.default ?? mod;
+        if (!sdk?.initBubble) {
+          throw new Error('SDK Typebot inválido');
+        }
+        window.Typebot = sdk;
+        return sdk;
+      }
+    })().catch((err) => {
+      sdkPromise = null;
+      throw err;
+    });
+  }
+
+  return sdkPromise;
 }
 
 function ensureBubble(): Promise<void> {
   if (!TYPEBOT_CONFIGURED) return Promise.resolve();
+
   if (!initPromise) {
     initPromise = (async () => {
-      TypebotRef = await loadTypebotFromCdn();
-      await new Promise<void>((resolve) => {
-        TypebotRef!.initBubble({
+      const sdk = await loadTypebotSdk();
+
+      await new Promise<void>((resolve, reject) => {
+        const initTimeout = window.setTimeout(() => {
+          reject(new Error('Timeout ao inicializar o bubble Typebot'));
+        }, 20_000);
+
+        sdk.initBubble({
           typebot: TYPEBOT_PUBLIC_ID,
           apiHost: TYPEBOT_API_HOST,
           theme: {
@@ -64,26 +147,48 @@ function ensureBubble(): Promise<void> {
             },
             placement: 'right',
           },
-          onInit: () => resolve(),
+          onInit: () => {
+            clearTimeout(initTimeout);
+            resolve();
+          },
         });
       });
-    })();
+    })().catch((err) => {
+      initPromise = null;
+      throw err;
+    });
   }
+
   return initPromise;
 }
 
-/** Pré-carrega o bubble (launcher visível do Typebot) para a primeira interação ser mais rápida. */
 export function preloadTypebotBubble(): void {
-  void ensureBubble();
+  void ensureBubble().catch((err) => {
+    console.warn('[Typebot] pré-carga falhou:', err);
+  });
+}
+
+function openWhatsAppFallback(): void {
+  if (WHATSAPP_URL.startsWith('http')) {
+    window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+  }
 }
 
 export async function openTypebot(): Promise<void> {
-  if (TYPEBOT_CONFIGURED) {
-    await ensureBubble();
-    TypebotRef?.open();
+  if (!TYPEBOT_CONFIGURED) {
+    openWhatsAppFallback();
     return;
   }
-  if (typeof WHATSAPP_URL === 'string' && WHATSAPP_URL.startsWith('http')) {
-    window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+
+  try {
+    await ensureBubble();
+    const sdk = window.Typebot;
+    if (!sdk?.open) {
+      throw new Error('Typebot.open não disponível');
+    }
+    sdk.open();
+  } catch (err) {
+    console.error('[Typebot] não foi possível abrir o chat:', err);
+    openWhatsAppFallback();
   }
 }
