@@ -1,18 +1,15 @@
-/** Google Tag Manager — ID do contentor (também em `index.html`). */
-export const GTM_CONTAINER_ID =
-  (import.meta.env.VITE_GTM_CONTAINER_ID as string | undefined)?.trim() || 'GTM-55NRX6NH';
+/** Google Tag Manager — definir `VITE_GTM_CONTAINER_ID` no ambiente. */
+export const GTM_CONTAINER_ID = (import.meta.env.VITE_GTM_CONTAINER_ID as string | undefined)?.trim() ?? '';
 
 /** Link direto WhatsApp (reserva se o Typebot não estiver configurado). */
 export const WHATSAPP_URL = (import.meta.env.VITE_WHATSAPP_URL as string | undefined)?.trim() ?? '';
 
-/** Viewer/API pública do Typebot (sem barra final). Padrão: instância Creative Lane deste projeto. */
+/** Viewer/API pública do Typebot (sem barra final). */
 export const TYPEBOT_API_HOST =
-  (import.meta.env.VITE_TYPEBOT_API_HOST as string | undefined)?.replace(/\/$/, '').trim() ||
-  'https://flow.creativelane.com.br';
+  (import.meta.env.VITE_TYPEBOT_API_HOST as string | undefined)?.replace(/\/$/, '').trim() ?? '';
 
-/** ID público do fluxo (slug na URL). Padrão: `enanda-cwb`. */
-export const TYPEBOT_PUBLIC_ID =
-  (import.meta.env.VITE_TYPEBOT_PUBLIC_ID as string | undefined)?.trim() || 'enanda-cwb';
+/** ID público do fluxo (slug na URL). */
+export const TYPEBOT_PUBLIC_ID = (import.meta.env.VITE_TYPEBOT_PUBLIC_ID as string | undefined)?.trim() ?? '';
 
 export const TYPEBOT_CONFIGURED = Boolean(TYPEBOT_API_HOST && TYPEBOT_PUBLIC_ID);
 

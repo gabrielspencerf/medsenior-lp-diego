@@ -24,8 +24,8 @@ Prefixo **`VITE_`** expõe valores ao bundle do cliente. Modelo em [`.env.exampl
 | Variável | Uso |
 |----------|-----|
 | `VITE_SITE_URL` | URL pública do site (sem `/` final). Build injeta `canonical` / `og:url` / `og:image` no `index.html` quando definida. Runtime: `SeoHead` + `src/content/seo.ts`. |
-| `VITE_TYPEBOT_API_HOST` | URL do viewer Typebot, sem barra final. Padrão em `constants.ts`: `https://flow.creativelane.com.br` |
-| `VITE_TYPEBOT_PUBLIC_ID` | ID público do fluxo (slug). Padrão: `enanda-cwb` |
+| `VITE_TYPEBOT_API_HOST` | URL do viewer Typebot, sem barra final. Obrigatória para ativar Typebot. |
+| `VITE_TYPEBOT_PUBLIC_ID` | ID público do fluxo (slug). Obrigatória para ativar Typebot. |
 | `VITE_TYPEBOT_JS_URL` | Opcional — URL do `web.js` no CDN |
 | `VITE_WHATSAPP_URL` | Reserva: `https://wa.me/...` quando Typebot não está configurado |
 | `VITE_GTM_CONTAINER_ID` | Google Tag Manager — `GTM-XXXXXXX` |

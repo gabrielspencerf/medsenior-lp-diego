@@ -36,7 +36,7 @@ Estrutura narrativa e texto da landing. **Fonte de exibição:** `src/pages/Land
 | Sobre a imagem | label `Localização Estratégica` + `Unidade Própria em Curitiba focada em longevidade ativa.` | Ancoragem física. |
 | Badge animado | `Especialidade` / `Cuidado 44+` | Reforço do público. |
 
-**Atendimento (Typebot):** com `VITE_TYPEBOT_API_HOST` e `VITE_TYPEBOT_PUBLIC_ID` definidos (ver [`.env.example`](../.env.example)), o embed carrega pelo **CDN** (painel “HTML & Javascript”); o **único** botão circular fixo no canto é o launcher nativo do Typebot. Os CTAs chamam `openTypebot()` para abrir o chat. URL pública de referência: **https://flow.creativelane.com.br/enanda-cwb**. Sem Typebot no `.env`, não há launcher; os CTAs podem usar `VITE_WHATSAPP_URL` como fallback.
+**Atendimento (Typebot):** com `VITE_TYPEBOT_API_HOST` e `VITE_TYPEBOT_PUBLIC_ID` definidos (ver [`.env.example`](../.env.example)), o embed carrega pelo **CDN** (painel “HTML & Javascript”); o **único** botão circular fixo no canto é o launcher nativo do Typebot. Os CTAs chamam `openTypebot()` para abrir o chat. Sem Typebot no `.env`, não há launcher; os CTAs podem usar `VITE_WHATSAPP_URL` como fallback.
 
 **WhatsApp de reserva:** `VITE_WHATSAPP_URL` em [`.env.example`](../.env.example) / [`src/content/constants.ts`](../src/content/constants.ts) (`WHATSAPP_URL`).
 
