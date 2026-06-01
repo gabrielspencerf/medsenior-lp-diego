@@ -7,6 +7,7 @@ import {
   Plus,
   Minus,
   ArrowRight,
+  MessageCircle,
   ChevronLeft,
   ChevronRight,
   HeartPulse,
@@ -201,7 +202,11 @@ export function LandingPage() {
                   <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     <CtaButton typebot variant="primary" className="w-full justify-center sm:w-auto sm:min-w-[14rem]">
                       Consultar Tabela{' '}
-                      <ArrowRight size={16} className="transition-transform group-hover/cta:translate-x-0.5" />
+                      <ArrowRight
+                        size={16}
+                        className="shrink-0 transition-transform group-hover/cta:translate-x-0.5"
+                        aria-hidden
+                      />
                     </CtaButton>
                   </div>
                   <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -419,6 +424,11 @@ export function LandingPage() {
                             fullWidth
                           >
                             {plan.cta}
+                            <ArrowRight
+                              size={16}
+                              className="shrink-0 transition-transform group-hover/cta:translate-x-0.5"
+                              aria-hidden
+                            />
                           </CtaButton>
                         </div>
                       </motion.div>
@@ -495,7 +505,8 @@ export function LandingPage() {
                   qualidade, reduzindo surpresas e garantindo conforto.
                 </p>
                 <CtaButton typebot variant="primary" className="w-full justify-center sm:inline-flex sm:w-auto sm:min-w-[12rem]">
-                  Falar com Especialista <Plus size={16} className="transition-transform group-hover/cta:rotate-90" />
+                  <MessageCircle size={16} className="shrink-0" aria-hidden />
+                  Falar com Especialista
                 </CtaButton>
               </div>
             </div>
@@ -585,6 +596,7 @@ export function LandingPage() {
                   )}
                 </ul>
                 <CtaButton typebot variant="muted" className="mt-auto self-center !px-6 sm:!px-7">
+                  <MessageCircle size={16} className="shrink-0" aria-hidden />
                   Consultar via WhatsApp
                 </CtaButton>
               </div>
