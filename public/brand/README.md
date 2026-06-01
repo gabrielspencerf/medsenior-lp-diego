@@ -6,6 +6,8 @@ Ficheiros em uso (caminhos em `src/content/constants.ts`):
 |----------|-----|
 | `brascare-logotipo-horizontal.webp` | Logo horizontal BrasCare (ícone + palavra + linha de apoio) à **esquerda** do header. |
 | `medsenior-selo.webp` | Selo MedSênior (parceiro autorizado) à **direita** do header. |
+| `medsenior-hero.webp` | Imagem principal da **hero** (1080×1080). |
+| `medsenior-diferencial.webp` | Imagem da secção **Ecossistema / diferencial** (1080×1080). |
 
 Os SVGs `brascare-logo.svg` e `brascare-selo.svg` mantêm-se como legado / referência; a landing usa os WebP acima.
 

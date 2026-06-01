@@ -9,7 +9,8 @@ export const TYPEBOT_API_HOST =
   (import.meta.env.VITE_TYPEBOT_API_HOST as string | undefined)?.replace(/\/$/, '').trim() ?? '';
 
 /** ID público do fluxo (slug na URL). */
-export const TYPEBOT_PUBLIC_ID = (import.meta.env.VITE_TYPEBOT_PUBLIC_ID as string | undefined)?.trim() ?? '';
+export const TYPEBOT_PUBLIC_ID =
+  (import.meta.env.VITE_TYPEBOT_PUBLIC_ID as string | undefined)?.trim() || 'medseniordiego';
 
 export const TYPEBOT_CONFIGURED = Boolean(TYPEBOT_API_HOST && TYPEBOT_PUBLIC_ID);
 
@@ -18,3 +19,9 @@ export const BRAND_LOGO_SRC = '/brand/brascare-logotipo-horizontal.webp';
 
 /** Selo MedSênior (parceiro autorizado) — WebP em `public/brand/`. */
 export const BRAND_SEAL_SRC = '/brand/medsenior-selo.webp';
+
+/** Foto principal da hero — WebP em `public/brand/`. */
+export const LANDING_HERO_IMAGE_SRC = '/brand/medsenior-hero.webp';
+
+/** Visual da secção ecossistema/diferencial — WebP em `public/brand/`. */
+export const LANDING_DIFFERENCIAL_IMAGE_SRC = '/brand/medsenior-diferencial.webp';

@@ -24,6 +24,7 @@ import { SiteHeader } from '../components/ui/SiteHeader';
 import { Eyebrow, eyebrowClassName } from '../components/ui/Eyebrow';
 import { SectionTitle } from '../components/ui/SectionTitle';
 import { CtaButton } from '../components/ui/CtaButton';
+import { LANDING_DIFFERENCIAL_IMAGE_SRC, LANDING_HERO_IMAGE_SRC } from '../content/constants';
 import { imgBlockSaveAttrs } from '../lib/imgBlockSave';
 
 export function LandingPage() {
@@ -232,18 +233,16 @@ export function LandingPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                 >
-                  <div className="group relative aspect-[5/4] max-h-[min(72vh,520px)] overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-[0_36px_90px_-40px_rgba(0,0,0,0.9),0_0_80px_-42px_rgba(184,220,111,0.55)] sm:max-h-none md:rounded-3xl md:border-[1.5px]">
+                  <div className="group relative mx-auto aspect-square w-full max-w-[560px] overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-[0_36px_90px_-40px_rgba(0,0,0,0.9),0_0_80px_-42px_rgba(184,220,111,0.55)] md:mx-0 md:rounded-3xl md:border-[1.5px]">
                     <img
-                      src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop"
-                      srcSet="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=640&auto=format&fit=crop 640w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=960&auto=format&fit=crop 960w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop 1200w, https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop 1600w"
+                      src={LANDING_HERO_IMAGE_SRC}
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      width={1200}
-                      height={960}
-                      alt="Excelência em Saúde Curitiba"
-                      className="pointer-events-none h-full w-full select-none object-cover grayscale-[0.08] transition-transform duration-700 group-hover:scale-105"
+                      width={1080}
+                      height={1080}
+                      alt="Atendimento humanizado MedSênior em Curitiba"
+                      className="pointer-events-none h-full w-full select-none object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                       decoding="async"
                       fetchPriority="high"
-                      referrerPolicy="no-referrer"
                       {...imgBlockSaveAttrs}
                     />
                     <div
@@ -251,7 +250,7 @@ export function LandingPage() {
                       aria-hidden
                       style={{
                         background:
-                          'linear-gradient(to top, rgba(2, 22, 14, 1) 0%, rgba(2, 22, 14, 0.96) 16%, rgba(2, 22, 14, 0.78) 34%, rgba(2, 22, 14, 0.45) 52%, rgba(2, 22, 14, 0.18) 66%, transparent 82%)',
+                          'linear-gradient(to top, rgba(2, 22, 14, 0.72) 0%, rgba(2, 22, 14, 0.55) 24%, rgba(2, 22, 14, 0.28) 46%, rgba(2, 22, 14, 0.12) 64%, transparent 82%)',
                       }}
                     />
                     <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-2.5 p-4 pb-4 sm:gap-3 sm:p-5 sm:pb-5 md:p-6 md:pb-6">
@@ -263,21 +262,6 @@ export function LandingPage() {
                           Unidade Própria em Curitiba focada em longevidade ativa.
                         </h3>
                       </div>
-                      <motion.div
-                        animate={{ y: [0, -4, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                        className="flex max-w-full items-center gap-3 rounded-xl border border-white/20 bg-white/90 p-3 pr-4 shadow-lg backdrop-blur-sm"
-                      >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#B8DC6F] text-[#063D24] shadow-sm">
-                          <HeartPulse size={20} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="block text-[9px] font-semibold uppercase tracking-wide text-[#5F6F67]">
-                            Especialidade
-                          </span>
-                          <span className="text-sm font-bold tracking-tight text-[#063D24]">Cuidado 44+</span>
-                        </div>
-                      </motion.div>
                     </div>
                   </div>
                 </motion.div>
@@ -465,7 +449,7 @@ export function LandingPage() {
 
         <Section variant="dark">
           <Container>
-            <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-2 lg:gap-12">
+            <div className="grid items-start gap-8 md:gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
               <div className="order-2 min-w-0 lg:order-1">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
                   {benefits.map((item, i) => (
@@ -494,7 +478,7 @@ export function LandingPage() {
                   ))}
                 </div>
               </div>
-              <div className="order-1 min-w-0 lg:order-2 lg:pl-4">
+              <div className="order-1 min-w-0 lg:order-2 lg:pl-2">
                 <Eyebrow className="mb-3 text-[#B8DC6F]/90">Ecossistema MedSênior</Eyebrow>
                 <SectionTitle tone="light" className="mb-4 text-pretty">
                   O padrão ouro em <br />
@@ -504,6 +488,19 @@ export function LandingPage() {
                   Criado para quem entende que a saúde é o maior ativo. Nosso modelo de cuidado ativo foca em longevidade com
                   qualidade, reduzindo surpresas e garantindo conforto.
                 </p>
+                <div className="mb-6 rounded-2xl border border-white/15 bg-white/[0.03] p-3 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.65)] md:rounded-3xl md:p-4">
+                  <img
+                    src={LANDING_DIFFERENCIAL_IMAGE_SRC}
+                    width={1080}
+                    height={1080}
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    alt="Diferenciais MedSênior — cuidado preventivo e bem-estar"
+                    className="pointer-events-none mx-auto block h-auto w-full max-w-[520px] select-none object-contain"
+                    loading="lazy"
+                    decoding="async"
+                    {...imgBlockSaveAttrs}
+                  />
+                </div>
                 <CtaButton typebot variant="primary" className="w-full justify-center sm:inline-flex sm:w-auto sm:min-w-[12rem]">
                   <MessageCircle size={16} className="shrink-0" aria-hidden />
                   Falar com Especialista
