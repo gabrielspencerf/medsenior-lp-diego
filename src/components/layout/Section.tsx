@@ -6,7 +6,7 @@ const variantClass: Record<SectionVariant, string> = {
   default: 'bg-[#FDFDFD]',
   muted: 'bg-[#F9FAF6]',
   white: 'bg-white',
-  dark: 'bg-[#063D24] text-white',
+  dark: 'bg-[#02160E] text-white',
 };
 
 type Props = {

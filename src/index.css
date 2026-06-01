@@ -4,6 +4,9 @@
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Montserrat", sans-serif;
+  --color-brand-night: #02160e;
+  --color-brand-cream: #f7f8f1;
+  --color-brand-glow: #b8dc6f;
   --color-brand-deep: #063d24;
   --color-brand-mid: #0d6b3c;
   --color-brand-lime: #b8dc6f;
@@ -33,6 +36,10 @@
   /** Parágrafo corpo em secções (cor + ritmo). */
   .lp-prose {
     @apply text-base text-text-muted leading-relaxed font-medium opacity-70;
+  }
+
+  .lp-prose-light {
+    @apply text-base leading-relaxed font-medium text-white/75;
   }
 
   /** Secções H2 em páginas legais. */

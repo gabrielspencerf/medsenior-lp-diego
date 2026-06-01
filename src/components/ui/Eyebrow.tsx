@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 /** Label acima de títulos — peso e letter-spacing discretos (padrão único na LP). */
 export const eyebrowClassName =
-  'text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0D6B3C] block';
+  'block text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0D6B3C]';
 
 type Props = {
   children: ReactNode;
