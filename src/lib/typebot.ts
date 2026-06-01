@@ -1,8 +1,6 @@
 import { TYPEBOT_API_HOST, TYPEBOT_CONFIGURED, TYPEBOT_PUBLIC_ID, WHATSAPP_URL } from '../content/constants';
 
-const TYPEBOT_CDN =
-  (import.meta.env.VITE_TYPEBOT_JS_URL as string | undefined)?.trim() ||
-  'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.10.2/dist/web.js';
+const TYPEBOT_CDN = 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js';
 
 type TypebotGlobal = {
   initBubble: (opts: Record<string, unknown>) => void;
@@ -16,10 +14,6 @@ declare global {
     Typebot?: TypebotGlobal;
     __typebotEmbedStarted?: boolean;
   }
-}
-
-function whatsappIconUrl(): string {
-  return new URL('/brand/whatsapp-bubble-icon.svg', window.location.origin).href;
 }
 
 /** Igual ao snippet “Share → HTML & Javascript” do painel Typebot. */
@@ -38,8 +32,8 @@ Typebot.initBubble({
   typebot: ${JSON.stringify(TYPEBOT_PUBLIC_ID)},
   apiHost: ${JSON.stringify(TYPEBOT_API_HOST)},
   theme: {
-    button: { backgroundColor: '#25D366', iconColor: '#ffffff', customIconSrc: ${JSON.stringify(whatsappIconUrl())} },
-    chatWindow: { backgroundColor: '#FAF9F6' },
+    button: { backgroundColor: '#B5D975' },
+    chatWindow: { backgroundColor: '#FFFFFF' },
   },
 });
 `;

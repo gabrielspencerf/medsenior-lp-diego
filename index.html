@@ -6,14 +6,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <!-- Google Tag Manager (opcional; suporta IDs por praça via VITE_MARKET) -->
+    <!-- Google Tag Manager (opcional; usa VITE_GTM_CONTAINER_ID) -->
     <script type="module">
-      const market = (import.meta.env.VITE_MARKET || 'curitiba').toLowerCase();
-      const gtmByMarket = {
-        curitiba: import.meta.env.VITE_GTM_CONTAINER_ID_CURITIBA?.trim(),
-        recife: import.meta.env.VITE_GTM_CONTAINER_ID_RECIFE?.trim(),
-      };
-      const gtmId = gtmByMarket[market] || import.meta.env.VITE_GTM_CONTAINER_ID?.trim();
+      const gtmId = import.meta.env.VITE_GTM_CONTAINER_ID?.trim();
       if (gtmId) {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
