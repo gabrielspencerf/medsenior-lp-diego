@@ -9,6 +9,7 @@ export const recifeMarketContent: MarketContent = {
     imageAlt: 'Atendimento humanizado MedSênior em Recife',
     description:
       'Assistência à saúde exclusiva para público 44+ em Recife, com cuidado continuado, rede credenciada e medicina preventiva.',
+    highlights: ['Unidade Própria', 'Rede Credenciada Referência'],
     ctaLabel: 'Quero Cotar',
     locationChip: 'Recife e região metropolitana',
     consultingChip: 'Consultoria especializada sem custo',

@@ -1,10 +1,7 @@
-import { Link } from 'react-router-dom';
 import {
   LEGAL_CNPJ,
   LEGAL_COMPANY_NAME,
   LEGAL_LAST_UPDATED,
-  LEGAL_SITE_HOST,
-  SITE_URL,
 } from '../content/legal';
 import { LegalLayout } from './LegalLayout';
 
@@ -13,19 +10,13 @@ export function PrivacidadePage() {
     <LegalLayout
       eyebrow="BrasCare Saúde"
       title="Política de privacidade"
-      updatedLabel={`Última atualização: ${LEGAL_LAST_UPDATED}. Site: ${LEGAL_SITE_HOST}`}
+      updatedLabel={`Última atualização: ${LEGAL_LAST_UPDATED}.`}
     >
       <section>
         <h2>1. Controlador dos dados</h2>
         <p className="lp-prose !opacity-90">
-          O controlador dos dados pessoais tratados por meio do site{' '}
-          <a
-            href={SITE_URL}
-            className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]"
-          >
-            {LEGAL_SITE_HOST}
-          </a>{' '}
-          é a <strong className="font-semibold text-[#063D24]">{LEGAL_COMPANY_NAME}</strong>, CNPJ{' '}
+          O controlador dos dados pessoais tratados por meio deste site é a{' '}
+          <strong className="font-semibold text-[#063D24]">{LEGAL_COMPANY_NAME}</strong>, CNPJ{' '}
           <strong className="font-semibold text-[#063D24]">{LEGAL_CNPJ}</strong>, na qualidade de corretora responsável pela captação e
           orientação comercial. A operadora de saúde contratada tratará dados próprios na fase de contratação e prestação do serviço,
           conforme avisos de privacidade da operadora.
@@ -119,19 +110,9 @@ export function PrivacidadePage() {
       <section>
         <h2>10. Alterações e contato</h2>
         <p className="lp-prose !opacity-90">
-          Esta política pode ser atualizada; a data no topo indica a versão vigente. Recomendamos revisitar periodicamente. Consulte também
-          os{' '}
-          <Link to="/termos" className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]">
-            Termos de Uso
-          </Link>
-          . Dúvidas sobre privacidade podem ser enviadas pelos canais de atendimento disponíveis em{' '}
-          <a
-            href={SITE_URL}
-            className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]"
-          >
-            {LEGAL_SITE_HOST}
-          </a>
-          .
+          Esta política pode ser atualizada; a data no topo indica a versão vigente. Recomendamos revisitar periodicamente.
+          Consulte também os Termos de Uso. Dúvidas sobre privacidade podem ser enviadas pelos canais de atendimento
+          disponíveis neste ambiente.
         </p>
       </section>
     </LegalLayout>

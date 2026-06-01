@@ -13,6 +13,7 @@ export type HeroContent = {
   titleEmphasis: string;
   imageAlt: string;
   description: string;
+  highlights: string[];
   ctaLabel: string;
   locationChip: string;
   consultingChip: string;

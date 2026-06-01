@@ -31,6 +31,7 @@ import { imgBlockSaveAttrs } from '../lib/imgBlockSave';
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [heroHighlightIndex, setHeroHighlightIndex] = useState(0);
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const planCarouselOuterRef = useRef<HTMLDivElement>(null);
   const [planOuterW, setPlanOuterW] = useState(0);
@@ -62,6 +63,7 @@ export function LandingPage() {
   }, []);
 
   const { hero, plansSection, ecosystemSection, networkSection, faqSection } = marketContent;
+  const heroHighlights = hero.highlights.length ? hero.highlights : ['Diferenciais MedSênior'];
   const plans = plansSection.plans;
   const benefits = ecosystemSection.benefits;
   const faqItems = faqSection.items;
@@ -100,16 +102,22 @@ export function LandingPage() {
     },
   };
 
-  const isMdUp = windowWidth >= 768;
-  /** Mobile: largura = contentor do carrossel (já desconta o padding da secção) — usa a faixa horizontal toda. */
-  const planCardWidthPx = isMdUp
-    ? 320
+  const isTabletUp = windowWidth >= 768;
+  const isDesktopUp = windowWidth >= 1280;
+  /** Tablet: 2 cartões visíveis; desktop largo: 3. */
+  const planVisibleSlots = isDesktopUp ? 3 : isTabletUp ? 2 : 1;
+  /** Mobile: usa toda a largura útil; tablet/desktop: divide por slots visíveis. */
+  const planCardWidthPx = isTabletUp
+    ? planOuterW > 0
+      ? Math.max(
+          280,
+          Math.min(360, Math.floor((planOuterW - (planVisibleSlots - 1) * PLAN_GAP_PX) / planVisibleSlots)),
+        )
+      : 320
     : planOuterW > 0
       ? Math.floor(planOuterW)
       : Math.max(260, Math.floor(windowWidth - 32));
   const planCardStride = planCardWidthPx + PLAN_GAP_PX;
-  /** Quantos cartões mostramos “cheios” na janela: 3 em md+, 1 em mobile. */
-  const planVisibleSlots = isMdUp ? 3 : 1;
   const planClipWidthPx =
     planVisibleSlots * planCardWidthPx + (planVisibleSlots - 1) * PLAN_GAP_PX;
   const planTrackWidthPx = plans.length * planCardWidthPx + (plans.length - 1) * PLAN_GAP_PX;
@@ -126,6 +134,18 @@ export function LandingPage() {
     setFocusedIndex((prev) => Math.min(prev, planMaxSlide));
   }, [planMaxSlide]);
 
+  React.useEffect(() => {
+    setHeroHighlightIndex(0);
+  }, [heroHighlights.length, marketContent.id]);
+
+  React.useEffect(() => {
+    if (heroHighlights.length <= 1) return;
+    const intervalId = window.setInterval(() => {
+      setHeroHighlightIndex((prev) => (prev + 1) % heroHighlights.length);
+    }, 6200);
+    return () => window.clearInterval(intervalId);
+  }, [heroHighlights]);
+
   return (
     <div id="inicio" className="min-h-screen bg-[#02160E]">
       <main>
@@ -136,7 +156,7 @@ export function LandingPage() {
           <div className="pointer-events-none absolute -right-16 bottom-12 h-72 w-72 rounded-full bg-[#0D6B3C]/25 blur-[120px]" />
           <SiteHeader tone="light" />
           <div className="relative flex min-h-0 flex-1 flex-col justify-center py-5 sm:py-8 md:py-10">
-            <div className="mx-auto grid w-full max-w-7xl min-h-0 items-center gap-6 px-4 sm:gap-8 sm:px-6 md:grid-cols-2 md:gap-8 lg:gap-10">
+            <div className="mx-auto grid w-full max-w-7xl min-h-0 items-center gap-6 px-4 sm:gap-8 sm:px-6 md:grid-cols-2 md:gap-6 lg:gap-10">
               <Container bleed className="min-h-0 min-w-0">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -152,6 +172,21 @@ export function LandingPage() {
                     {hero.titleLeading} <br />
                     <span className="font-medium italic text-[#B8DC6F]">{hero.titleEmphasis}</span>
                   </h1>
+                  <div className="mb-4 inline-flex max-w-full items-center rounded-full border border-white/20 px-3 py-2">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={heroHighlights[heroHighlightIndex]}
+                        initial={{ opacity: 0, x: 20, filter: 'blur(4px)' }}
+                        animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                        exit={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
+                        transition={{ duration: 0.55, ease: 'easeOut' }}
+                        className="flex items-center justify-center gap-2 text-center text-[10px] font-semibold uppercase tracking-wide text-white/85"
+                      >
+                        <CheckCircle2 size={13} className="shrink-0 text-[#B8DC6F]" aria-hidden />
+                        <span className="whitespace-nowrap">{heroHighlights[heroHighlightIndex]}</span>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                   <p className="lp-prose-light mb-6 max-w-md md:mb-8">{hero.description}</p>
                   <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                     <CtaButton typebot variant="primary" className="w-full justify-center sm:w-auto sm:min-w-[14rem]">
@@ -182,7 +217,7 @@ export function LandingPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                 >
-                  <div className="group relative mx-auto aspect-square w-full max-w-[560px] overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-[0_36px_90px_-40px_rgba(0,0,0,0.9),0_0_80px_-42px_rgba(184,220,111,0.55)] md:mx-0 md:rounded-3xl md:border-[1.5px]">
+                  <div className="group relative mx-auto aspect-square w-full max-w-[440px] overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-[0_36px_90px_-40px_rgba(0,0,0,0.9),0_0_80px_-42px_rgba(184,220,111,0.55)] md:mx-0 md:max-w-[460px] md:rounded-3xl md:border-[1.5px] lg:max-w-[560px]">
                     <img
                       src={LANDING_HERO_IMAGE_SRC}
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -391,8 +426,29 @@ export function LandingPage() {
 
         <Section variant="dark">
           <Container>
-            <div className="grid items-start gap-8 md:gap-10 lg:grid-cols-2 lg:gap-12">
-              <div className="order-2 min-w-0 lg:order-1">
+            <div className="grid items-center gap-8 md:grid-cols-2 md:gap-6 lg:gap-8">
+              <div className="order-2 min-w-0 md:order-1 md:justify-self-center md:pr-2">
+                <div className="w-full rounded-2xl border border-white/15 bg-white/[0.03] p-3 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.65)] md:rounded-3xl md:p-4">
+                  <img
+                    src={LANDING_DIFFERENCIAL_IMAGE_SRC}
+                    width={1080}
+                    height={1080}
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    alt={ecosystemSection.diferencialImageAlt}
+                    className="pointer-events-none mx-auto block h-auto w-full select-none object-contain"
+                    loading="lazy"
+                    decoding="async"
+                    {...imgBlockSaveAttrs}
+                  />
+                </div>
+              </div>
+              <div className="order-1 min-w-0 md:order-2 md:justify-self-center md:pl-0 lg:pl-2">
+                <Eyebrow className="mb-3 text-[#B8DC6F]/90">{ecosystemSection.eyebrow}</Eyebrow>
+                <SectionTitle tone="light" className="mb-4 text-pretty">
+                  {ecosystemSection.titleLeading} <br />
+                  <span className="font-medium italic text-[#B8DC6F]">{ecosystemSection.titleEmphasis}</span>
+                </SectionTitle>
+                <p className="lp-prose-light mb-5 max-w-xl lg:max-w-none">{ecosystemSection.description}</p>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
                   {benefits.map((item, i) => {
                     const BenefitIcon = benefitIcons[item.icon];
@@ -419,31 +475,10 @@ export function LandingPage() {
                     );
                   })}
                 </div>
-              </div>
-              <div className="order-1 min-w-0 lg:order-2 lg:pl-4">
-                <Eyebrow className="mb-3 text-[#B8DC6F]/90">{ecosystemSection.eyebrow}</Eyebrow>
-                <SectionTitle tone="light" className="mb-4 text-pretty">
-                  {ecosystemSection.titleLeading} <br />
-                  <span className="font-medium italic text-[#B8DC6F]">{ecosystemSection.titleEmphasis}</span>
-                </SectionTitle>
-                <p className="lp-prose-light mb-5 max-w-xl lg:max-w-none">{ecosystemSection.description}</p>
-                <CtaButton typebot variant="primary" className="mb-5 w-full justify-center sm:inline-flex sm:w-auto sm:min-w-[12rem]">
+                <CtaButton typebot variant="primary" className="mt-5 w-full justify-center sm:inline-flex sm:w-auto sm:min-w-[12rem]">
                   <MessageCircle size={16} className="shrink-0" aria-hidden />
                   {ecosystemSection.ctaLabel}
                 </CtaButton>
-                <div className="w-full max-w-[460px] rounded-2xl border border-white/15 bg-white/[0.03] p-3 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.65)] md:rounded-3xl md:p-4">
-                  <img
-                    src={LANDING_DIFFERENCIAL_IMAGE_SRC}
-                    width={1080}
-                    height={1080}
-                    sizes="(max-width: 1024px) 100vw, 40vw"
-                    alt={ecosystemSection.diferencialImageAlt}
-                    className="pointer-events-none mx-auto block h-auto w-full max-w-[430px] select-none object-contain"
-                    loading="lazy"
-                    decoding="async"
-                    {...imgBlockSaveAttrs}
-                  />
-                </div>
               </div>
             </div>
           </Container>

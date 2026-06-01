@@ -1,10 +1,7 @@
-import { Link } from 'react-router-dom';
 import {
   LEGAL_CNPJ,
   LEGAL_COMPANY_NAME,
   LEGAL_LAST_UPDATED,
-  LEGAL_SITE_HOST,
-  SITE_URL,
 } from '../content/legal';
 import { LegalLayout } from './LegalLayout';
 
@@ -13,23 +10,13 @@ export function TermosPage() {
     <LegalLayout
       eyebrow="BrasCare Saúde"
       title="Termos de uso"
-      updatedLabel={`Última atualização: ${LEGAL_LAST_UPDATED}. Site: ${LEGAL_SITE_HOST}`}
+      updatedLabel={`Última atualização: ${LEGAL_LAST_UPDATED}.`}
     >
       <section>
         <h2>1. Aceitação</h2>
         <p className="lp-prose !opacity-90">
-          Ao acessar e utilizar o site{' '}
-          <a
-            href={SITE_URL}
-            className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]"
-          >
-            {LEGAL_SITE_HOST}
-          </a>
-          , você declara ter lido e concordado com estes Termos de Uso e com a nossa{' '}
-          <Link to="/privacidade" className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]">
-            Política de Privacidade
-          </Link>
-          . Se não concordar, não utilize o site.
+          Ao acessar e utilizar este site, você declara ter lido e concordado com estes Termos de Uso e com a
+          Política de Privacidade aplicável. Se não concordar, não utilize o site.
         </p>
       </section>
 
@@ -99,11 +86,8 @@ export function TermosPage() {
         <h2>9. Lei aplicável e contato</h2>
         <p className="lp-prose !opacity-90">
           Estes termos são regidos pelas leis da República Federativa do Brasil. Dúvidas podem ser encaminhadas pelos canais de
-          atendimento disponíveis no site (incluindo o assistente de conversa). Para questões sobre dados pessoais, consulte a{' '}
-          <Link to="/privacidade" className="font-semibold text-[#0D6B3C] underline underline-offset-2 hover:text-[#063D24]">
-            Política de Privacidade
-          </Link>
-          .
+          atendimento disponíveis neste ambiente (incluindo o assistente de conversa). Para questões sobre dados pessoais,
+          consulte a Política de Privacidade.
         </p>
       </section>
     </LegalLayout>
