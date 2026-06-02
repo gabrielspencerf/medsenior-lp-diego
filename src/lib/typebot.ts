@@ -16,6 +16,10 @@ declare global {
   }
 }
 
+function whatsappIconUrl(): string {
+  return new URL('/brand/whatsapp-bubble-icon.svg', window.location.origin).href;
+}
+
 /** Igual ao snippet “Share → HTML & Javascript” do painel Typebot. */
 export function injectTypebotEmbed(): void {
   if (typeof window === 'undefined' || !TYPEBOT_CONFIGURED) return;
@@ -32,7 +36,11 @@ Typebot.initBubble({
   typebot: ${JSON.stringify(TYPEBOT_PUBLIC_ID)},
   apiHost: ${JSON.stringify(TYPEBOT_API_HOST)},
   theme: {
-    button: { backgroundColor: '#B5D975' },
+    button: {
+      backgroundColor: '#25D366',
+      iconColor: '#ffffff',
+      customIconSrc: ${JSON.stringify(whatsappIconUrl())},
+    },
     chatWindow: { backgroundColor: '#FFFFFF' },
   },
 });
